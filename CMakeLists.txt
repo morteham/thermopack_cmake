@@ -57,8 +57,9 @@ SET(MOD ${CMAKE_SOURCE_DIR}/mod)
 
 # Have the .mod files placed in the mod folder
 SET(CMAKE_Fortran_MODULE_DIRECTORY ${MOD})
-# Set output folders for lib and exe
+# Set output folders for lib
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB})
+# Set output folders for executable
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BIN})
 
 # Define targets and source files
