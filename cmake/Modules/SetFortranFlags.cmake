@@ -60,6 +60,7 @@ ENDIF()
 
 # Optimize for the host's architecture
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "host optimization"
                  Fortran "-xHost"        # Intel
                          "/QxHost"       # Intel Windows
                          ${GNUNATIVE}    # GNU
@@ -68,41 +69,74 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
 
 # Enable preprocessor
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "preprosessor"
                  Fortran "-fpp"         # Intel
                          "/fpp"         # Intel Windows
                          "-cpp"         # GNU
                          "-Mpreprocess" # Portland Group
                 )
 
+
+# Lowercase names
+SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "lowercase names"
+                 Fortran "-names lowercase"         # Intel
+                         "/names:lowercase"         # Intel Windows
+                                                    # GNU (default beghaviour)
+                         "-Mnoupcase"               # Portland Group
+                )
+				
+# Underscore
+SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "underscore"
+                 Fortran "-assume underscore"   # Intel
+                         "/assume:underscore"   # Intel Windows
+                                                # GNU (default beghaviour)
+                                                # Portland Group (-Msecond_underscore)
+                )
+
+# Calling convention
+SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "calling convention"
+                 Fortran                # Intel (default behaviour)
+                         "/iface:cref"  # Intel Windows
+                                        # GNU (default behaviour)
+                         "-Miface=cref" # Portland Group (?)
+                )
 # Set default real to real*8
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "default real size"
                  Fortran "-r8"                                 # Intel and Portland Group
-                         "/r8"                                 # Intel Windows
+                         "/real-size:64"                       # Intel Windows
                          "-fdefault-real-8 -fdefault-double-8" # GNU
                 )
 
 # Make position independent code
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				"position independent code"
                  Fortran "-fPIC"  # Intel, GNU and Portland Group
-                         "/fPIC"  # Intel Windows
+                                  # Intel Windows None
                 )
 
 # No right margin wraps at column 80
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				 "text format"
                  Fortran "-no-wrap-margin" # Intel
                          "/wrap-margin-"   # Intel Windows
                 )
 
 # Enable precise floating point model variation
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
+				"floating point model"
                  Fortran "-fp-model precise" # Intel
-                         "/fp-model precise" # Intel Windows
+                         "/fp:precise"       # Intel Windows
                 )
 
 # Floating-point operations in conformance with the IEEE 754
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
-                 Fortran "-mieee-fp"         # Intel and GNU
-                         "/mieee-fp"         # Intel Windows
+ 				"floating point consistency"
+                 Fortran "-fltconsistency" # Intel and GNU
+                         "/fltconsistency" # Intel Windows
                          "-Kieee" # Portland Group
                 )
 
@@ -114,12 +148,14 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
 
 # Disable optimizations
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
+				  "disabled optimization"
                  Fortran REQUIRED "-O0" # All compilers not on Windows
                                   "/Od" # Intel Windows
                 )
 
 # Turn on (almost) all warnings
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
+ 				 "warnings"
                  Fortran "-warn all"                        # Intel
                          "/warn:all"                        # Intel Windows
                          "-Wno-unused-dummy-argument -Wall" # GNU
@@ -128,6 +164,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
 
 # Traceback
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
+				 "traceback"
                  Fortran "-traceback"   # Intel/Portland Group
                          "/traceback"   # Intel Windows
                          "-fbacktrace"  # GNU (gfortran)
@@ -144,6 +181,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
 
 # Enable checks
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
+				 "run-time checks"
                  Fortran "-check all,noarg_temp_created,nopointers"  # Intel
                          "/check:all,noarg_temp_created,nopointers"  # Intel Windows
                          "-fcheck=all,no-pointer"                    # GNU
@@ -152,6 +190,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
 
 # Trap floating point exception
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
+				 "floating point exception"
                  Fortran "-fpe0"                            # Intel
                          "/fpe:0"                           # Intel Windows
                          "-ffpe-trap=invalid,zero,overflow" # GNU
@@ -164,6 +203,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
 
 # Optimizations
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_TESTING "${CMAKE_Fortran_FLAGS_TESTING}"
+				 "optimization"
                  Fortran REQUIRED "-O2" # All compilers not on Windows
                                   "/O2" # Intel Windows
                 )
@@ -176,22 +216,25 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_TESTING "${CMAKE_Fortran_FLAGS_TESTING}"
 
 # Unroll loops
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+				 "loop unroll"
                  Fortran "-funroll-loops" # GNU
                          "-unroll"        # Intel
-                         "/unroll"        # Intel Windows
+                         "/Qunroll"        # Intel Windows
                          "-Munroll"       # Portland Group
                 )
 
 # Inline functions
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+				 "function inlining"
                  Fortran "-inline"            # Intel
-                         "/Qinline"           # Intel Windows
+                         "/inline"            # Intel Windows
                          "-finline-functions" # GNU
                          "-Minline"           # Portland Group
                 )
 
 # Interprocedural (link-time) optimizations
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+ 				"interprocedural (link-time) optimizations"
                  Fortran "-ipo"     # Intel
                          "/Qipo"    # Intel Windows
                          "-flto"    # GNU
@@ -200,12 +243,14 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
 
 # Single-file optimizations
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+				 "single-file optimizations"
                  Fortran "-ip"  # Intel
                          "/Qip" # Intel Windows
                 )
 
 # Vectorize code
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+				 "vectorized code"
                  Fortran "-vec-report0"  # Intel
                          "/Qvec-report0" # Intel Windows
                          "-Mvect"        # Portland Group
@@ -213,6 +258,7 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
 
 # Disable warnings
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+				 "warnings"
                  Fortran "-w"      # Intel and GNU
                          "/w"      # Intel Windows
                          "-silent" # Portland Group
@@ -220,8 +266,8 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
 
 # Optimization options
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
+ 				"custom optimization"
                  Fortran "-ax"                  # Intel and GNU
-                         "/ax"                  # Intel Windows
                          "-march=x86-64 -msse2" # GNU
                 )
 

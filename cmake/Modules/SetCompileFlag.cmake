@@ -10,7 +10,7 @@
 # For example, if you have the flag CMAKE_C_FLAGS and you want to add
 # warnings and want to fail if this is not possible, you might call this
 # function in this manner:
-# SET_COMPILE_FLAGS(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" C REQUIRED
+# SET_COMPILE_FLAGS(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}" MSG C REQUIRED
 #                   "-Wall"     # GNU
 #                   "-warn all" # Intel
 #                  )
@@ -28,7 +28,9 @@
 INCLUDE(${CMAKE_ROOT}/Modules/CheckCCompilerFlag.cmake)
 INCLUDE(${CMAKE_ROOT}/Modules/CheckCXXCompilerFlag.cmake)
 
-FUNCTION(SET_COMPILE_FLAG FLAGVAR FLAGVAL LANG)
+FUNCTION(SET_COMPILE_FLAG FLAGVAR FLAGVAL MSG LANG)
+
+	MESSAGE(STATUS "Testing compiler flags for ${MSG}")
 
     # Do some up front setup if Fortran
     IF(LANG STREQUAL "Fortran")
@@ -36,6 +38,9 @@ FUNCTION(SET_COMPILE_FLAG FLAGVAR FLAGVAL LANG)
         SET(FAIL_REGEX
             "ignoring unknown option"             # Intel
             "invalid argument"                    # Intel
+            "error "                              # Intel
+			"no action performed for file"        # Intel
+			"not supported"                       # Intel
             "unrecognized .*option"               # GNU
             "[Uu]nknown switch"                   # Portland Group
             "ignoring unknown option"             # MSVC
@@ -81,6 +86,7 @@ end program dummyprog
 ")
             TRY_COMPILE(FLAG_WORKS ${CMAKE_BINARY_DIR} ${TESTFILE}
                 COMPILE_DEFINITIONS "${flag}" OUTPUT_VARIABLE OUTPUT)
+			# Debugging: MESSAGE("${flag} output: ${OUTPUT}")
             
             # Check that the output message doesn't match any errors
             FOREACH(rx ${FAIL_REGEX})
