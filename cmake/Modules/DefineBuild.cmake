@@ -36,7 +36,7 @@ TARGET_INCLUDE_DIRECTORIES(${LIBTHERMOPACK_STATIC} PRIVATE ${CMAKE_SOURCE_DIR}/a
 ADD_CUSTOM_TARGET(${PYCTHERMOPACK} ALL
   COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LIBTHERMOPACK}>          ${CMAKE_SOURCE_DIR}/addon/pycThermopack/pyctp
   # Output Message
-  COMMENT "Copying libthermopack shared library from '${CMAKE_SOURCE_DIR}/lib/' to '${CMAKE_SOURCE_DIR}/addon/pycThermopack/pyctp'" VERBATIM
+  COMMENT "Copying libthermopack shared library from '${LIB}' to '${CMAKE_SOURCE_DIR}/addon/pycThermopack/pyctp'" VERBATIM
 )
 ADD_DEPENDENCIES(${PYCTHERMOPACK} ${LIBTHERMOPACK})
 
