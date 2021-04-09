@@ -156,8 +156,8 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
 # Turn on (almost) all warnings
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG}"
  				 "warnings"
-                 Fortran "-warn all"                        # Intel
-                         "/warn:all"                        # Intel Windows
+                 Fortran "-warn all,noexternal"             # Intel
+                         "/warn:all,noexternal"             # Intel Windows
                          "-Wno-unused-dummy-argument -Wall" # GNU
                          "-Minform=inform"                  # Portland Group
                 )
