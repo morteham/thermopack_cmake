@@ -28,6 +28,9 @@ INCLUDE(${CMAKE_MODULE_PATH}/SetFortranFlags.cmake)
 INCLUDE(${CMAKE_MODULE_PATH}/SetParallelizationLibrary.cmake)
 # Setup the LAPACK libraries.
 INCLUDE(${CMAKE_MODULE_PATH}/SetUpLAPACK.cmake)
+# Find python
+FIND_PACKAGE(Python3 COMPONENTS Interpreter)
+GET_FILENAME_COMPONENT(PYTHON_EXE ${Python3_EXECUTABLE} NAME)
 
 # There is an error in CMAKE with this flag for pgf90.  Unset it
 GET_FILENAME_COMPONENT(FCNAME ${CMAKE_Fortran_COMPILER} NAME)
