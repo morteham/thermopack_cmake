@@ -85,12 +85,12 @@ SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
                                                     # GNU (default beghaviour)
                          "-Mnoupcase"               # Portland Group
                 )
-				
+
 # Underscore
 SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS}"
-				 "underscore"
-                 Fortran "-assume underscore"   # Intel
-                         "/assume:underscore"   # Intel Windows
+		 "underscore"
+                 Fortran "-assume underscore" # Intel
+                         "/assume:underscore" # Intel Windows
                                                 # GNU (default beghaviour)
                                                 # Portland Group (-Msecond_underscore)
                 )
