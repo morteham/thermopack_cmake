@@ -39,6 +39,11 @@ SET(TOPDIRECTORIES "${TOPDIR}/lib"
                    "${TOPDIR}/bin"
 )
 
+# Remove thermopack Makefiles from the list of Makefiles
+LIST(REMOVE_ITEM MAKEFILE "${TOPDIR}/Makefile")
+LIST(REMOVE_ITEM MAKEFILE "${TOPDIR}/unittests/Makefile")
+LIST(REMOVE_ITEM MAKEFILE "${TOPDIR}/addon/pycThermopack/Makefile")
+
 # CMake has trouble finding directories recursively, so locate these
 # files and then save the parent directory of the files
 GET_PARENT_DIRECTORIES(Makefile.cmake CMAKEFILES 0)
